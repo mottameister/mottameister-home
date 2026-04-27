@@ -19,15 +19,17 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   
-  <style>
+    <style>
     :root {
       --bg: #090711;
-      --card: rgba(255, 255, 255, 0.075);
+      --card: rgba(255, 255, 255, 0.078);
+      --card-strong: rgba(255, 255, 255, 0.13);
       --text: #f7f2ff;
       --muted: #b9a9cb;
       --purple: #b517ff;
       --pink: #ff4fd8;
       --blue: #43d9ff;
+      --gold: #ffbf38;
       --shadow: 0 24px 80px rgba(181, 23, 255, 0.22);
     }
 
@@ -35,17 +37,15 @@
 
     body {
       margin: 0;
-      font-family: Inter, system-ui, sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
-
       background:
         radial-gradient(circle at 15% 10%, rgba(181,23,255,0.35), transparent 40%),
         radial-gradient(circle at 85% 20%, rgba(67,217,255,0.25), transparent 45%),
         radial-gradient(circle at 50% 80%, rgba(255,79,216,0.15), transparent 50%),
         linear-gradient(180deg, #05030a 0%, #090711 60%, #0c0816 100%);
-
       background-size: 140% 140%;
       animation: bgBreath 12s ease-in-out infinite alternate;
     }
@@ -77,9 +77,9 @@
     }
 
     .wrap {
-      max-width: 720px;
+      width: min(1080px, calc(100% - 32px));
       margin: auto;
-      padding: 30px 16px;
+      padding: 34px 0 28px;
       position: relative;
       z-index: 1;
     }
@@ -92,18 +92,20 @@
       filter: blur(40px);
       z-index: -1;
     }
+
     .hero {
       text-align: center;
+      padding: 12px 8px 22px;
     }
 
-    /* AVATAR FIX */
     .avatar-shell {
-      width: 140px;
-      height: 140px;
+      width: 132px;
+      height: 132px;
       margin: 0 auto 16px;
       border-radius: 999px;
       padding: 3px;
-      background: linear-gradient(135deg, var(--purple), var(--blue));
+      background: linear-gradient(135deg, var(--purple), var(--blue), var(--pink));
+      box-shadow: 0 0 30px rgba(181,23,255,.35), 0 0 44px rgba(67,217,255,.16);
     }
 
     .avatar {
@@ -112,111 +114,194 @@
       border-radius: inherit;
       overflow: hidden;
       border: 3px solid #090711;
+      background: #090711;
     }
 
     .avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      max-width: 400px;
-      max-height: 400px;
+      display: block;
     }
 
     h1 {
       margin: 0;
-      font-size: 48px;
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: .94;
+      letter-spacing: -0.055em;
     }
 
     .tagline {
       color: var(--muted);
-      margin-top: 10px;
+      margin: 12px auto 0;
+      max-width: 620px;
+      font-size: 16px;
+      line-height: 1.5;
     }
 
     .panel {
-      margin-top: 24px;
-      padding: 14px;
-      border-radius: 24px;
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.09),
-        rgba(255,255,255,0.045)
-      );
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.045));
       border: 1px solid rgba(255,255,255,0.12);
-      box-shadow:
-        0 24px 80px rgba(181,23,255,0.22),
-        inset 0 1px 0 rgba(255,255,255,0.08);
+      box-shadow: 0 24px 80px rgba(181,23,255,0.22), inset 0 1px 0 rgba(255,255,255,0.08);
       backdrop-filter: blur(18px);
     }
 
-    .links {
+    .section-title {
+      margin: 22px 4px 12px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      opacity: .68;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .section-title:first-child { margin-top: 4px; }
+
+    .bento {
       display: grid;
-      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
     }
 
-    .link {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
-      border-radius: 14px;
-      text-decoration: none;
-      color: white;
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: .2s;
-    }
-
-    .link:hover {
-      transform: translateY(-2px);
-    }
-
-    /* GLOW BUTTON */
-    .link-main {
+    .card {
       position: relative;
+      min-height: 132px;
+      padding: 18px;
+      border-radius: 22px;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.11);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform .22s ease, border-color .22s ease, background .22s ease, box-shadow .22s ease;
       isolation: isolate;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto -18% -45% -18%;
+      height: 95px;
+      background: radial-gradient(circle, rgba(181,23,255,.20), transparent 62%);
+      opacity: .55;
+      transition: opacity .22s ease, transform .22s ease;
+      z-index: -1;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(255,255,255,.26);
+      background: var(--card-strong);
+      box-shadow: 0 18px 50px rgba(0,0,0,.26), 0 0 28px rgba(181,23,255,.16);
+    }
+
+    .card:hover::after {
+      opacity: 1;
+      transform: translateY(-8px);
+    }
+
+    .card-main {
+      grid-column: span 2;
+      min-height: 168px;
       background: linear-gradient(135deg, rgba(181,23,255,.38), rgba(67,217,255,.18));
       border-color: rgba(181,23,255,.48);
-      box-shadow:
-        0 0 22px rgba(181,23,255,.38),
-        0 0 52px rgba(67,217,255,.18);
+      box-shadow: 0 0 22px rgba(181,23,255,.38), 0 0 52px rgba(67,217,255,.18);
     }
 
-    .link-main::before {
+    .card-main::before {
       content: "";
       position: absolute;
       inset: -2px;
-      border-radius: 18px;
+      border-radius: 24px;
       background: linear-gradient(135deg, var(--purple), var(--blue), var(--pink));
-      z-index: -1;
-      opacity: 0.45;
-      filter: blur(14px);
+      z-index: -2;
+      opacity: .42;
+      filter: blur(16px);
+    }
+
+    .card-wide { grid-column: span 2; }
+    .card-tall { min-height: 168px; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
     }
 
     .icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(255,255,255,.10);
+      font-size: 23px;
+      flex: 0 0 auto;
+    }
+
+    .arrow {
+      opacity: .64;
       font-size: 20px;
+      transition: transform .22s ease, opacity .22s ease;
+    }
+
+    .card:hover .arrow {
+      transform: translateX(3px);
+      opacity: 1;
     }
 
     .title {
-      font-weight: bold;
+      display: block;
+      margin-top: 16px;
+      font-weight: 900;
+      font-size: 18px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
     }
 
     .desc {
+      display: block;
+      margin-top: 8px;
       font-size: 13px;
       color: var(--muted);
+      line-height: 1.4;
     }
 
-    .section-title {
-      margin: 18px 4px 10px;
-      font-size: 12px;
-      letter-spacing: 2px;
-      opacity: .6;
-    }
+    .card-main .title { font-size: 22px; }
+    .card-main .desc { color: #dfd2ee; }
 
     .footer {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 22px;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 22px, 720px); padding-top: 24px; }
+      .avatar-shell { width: 112px; height: 112px; }
+      .panel { padding: 12px; border-radius: 24px; }
+      .bento { grid-template-columns: 1fr; gap: 10px; }
+      .card, .card-main, .card-wide, .card-tall {
+        grid-column: span 1;
+        min-height: 118px;
+      }
+      .card-main { min-height: 140px; }
+      .title { font-size: 17px; }
+      .card-main .title { font-size: 20px; }
+      .desc { font-size: 13px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body, body::before { animation: none; }
+      .card, .card::after, .arrow { transition: none; }
     }
   </style>
 </head>
@@ -233,128 +318,87 @@
 
       <h1>@mottameister</h1>
       <p class="tagline">
-        Gaming, comunidade e vida real 🚀
+        Gaming, comunidade e vida real. A casa da <strong>Toca da Coruja</strong>, do servidor, do modpack e dos projetos que estamos construindo juntos.
       </p>
     </section>
 
     <section class="panel">
-      <div class="section-title">COMECE AQUI</div>
-      <div class="links">
+      <div class="section-title">Comece aqui</div>
+      <div class="bento">
 
-        <a class="link link-main" href="https://discord.com/invite/TcSFAXGr6a" target="_blank" rel="noopener noreferrer">
-          <div>
-            <div class="title">💬 Entrar no Discord</div>
-            <div class="desc">Comunidade, avisos, suporte e acesso ao servidor</div>
-          </div>
-          →
+        <a class="card card-main" href="https://discord.com/invite/TcSFAXGr6a" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">💬</span><span class="arrow">→</span></span>
+          <span><span class="title">Entrar no Discord</span><span class="desc">Comunidade, avisos, suporte, eventos e acesso ao servidor.</span></span>
         </a>
 
-        <a class="link" href="https://modrinth.com/modpack/cobblemon-motta" target="_blank" rel="noopener noreferrer">
-          <div>
-            <div class="title">🧩 Baixar o Modpack</div>
-            <div class="desc">Cobblemon Motta Modpack no Modrinth</div>
-          </div>
-          →
+        <a class="card" href="https://modrinth.com/modpack/cobblemon-motta" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">🧩</span><span class="arrow">→</span></span>
+          <span><span class="title">Baixar o Modpack</span><span class="desc">Cobblemon Motta no Modrinth.</span></span>
         </a>
 
-        <a class="link" href="https://www.patreon.com/mottameister" target="_blank" rel="noopener noreferrer">
-          <div>
-            <div class="title">🦉 Patreon</div>
-            <div class="desc">Corujões, bastidores e conteúdo exclusivo</div>
-          </div>
-          →
+        <a class="card" href="https://www.patreon.com/mottameister" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">🦉</span><span class="arrow">→</span></span>
+          <span><span class="title">Patreon</span><span class="desc">Corujões, bastidores e conteúdo exclusivo.</span></span>
         </a>
 
       </div>
 
-      <div class="section-title">TOCA DA CORUJA</div>
-      <div class="links">
+      <div class="section-title">Toca da Coruja</div>
+      <div class="bento">
 
-        <a class="link" href="https://www.patreon.com/posts/mundo-cobblemon-155150113">
-          <div>
-            <div class="title">🗺️ Download do Mundo</div>
-            <div class="desc">Explore o mapa oficial do servidor no seu single player</div>
-          </div>
-          →
+        <a class="card card-wide" href="https://www.patreon.com/posts/mundo-cobblemon-155150113" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">🗺️</span><span class="arrow">→</span></span>
+          <span><span class="title">Download do Mundo</span><span class="desc">Explore o mapa oficial do servidor no seu single player.</span></span>
         </a>
 
-        <a class="link" href="https://www.patreon.com/posts/ace-trainer-toca-156636229">
-          <div>
-            <div class="title">🏆 Virar Ace Trainer</div>
-            <div class="desc">Entre como treinador de end-game na campanha</div>
-          </div>
-          →
+        <a class="card" href="https://www.patreon.com/posts/ace-trainer-toca-156636229" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">🏆</span><span class="arrow">→</span></span>
+          <span><span class="title">Virar Ace Trainer</span><span class="desc">Entre como treinador de end-game na campanha.</span></span>
         </a>
 
-        <a class="link" href="https://modrinth.com/mod/owls-nest-rct-campaign">
-          <div>
-            <div class="title">🦉 Campanha Toca da Coruja</div>
-            <div class="desc">Trainers, campanha e progresso do servidor</div>
-          </div>
-          →
+        <a class="card" href="https://modrinth.com/mod/owls-nest-rct-campaign" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">⚔️</span><span class="arrow">→</span></span>
+          <span><span class="title">Campanha</span><span class="desc">Trainers, progressão e desafios da Toca.</span></span>
         </a>
 
       </div>
 
-      <div class="section-title">RECOMENDAÇÕES</div>
-      <div class="links">
+      <div class="section-title">Recomendações</div>
+      <div class="bento">
 
-        <a class="link" href="https://www.amazon.com.br/shop/mottameister" target="_blank" rel="noopener noreferrer">
-          <div>
-            <div class="title">🎮 Produtos que eu uso e recomendo</div>
-            <div class="desc">Setup, jogos, casa, comidas e bebidas</div>
-          </div>
-          →
+        <a class="card card-wide" href="https://www.amazon.com.br/shop/mottameister" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">🎮</span><span class="arrow">→</span></span>
+          <span><span class="title">Produtos que eu uso</span><span class="desc">Setup, jogos, casa, comidas, bebidas e recomendações reais.</span></span>
         </a>
 
-        <a class="link" href="https://storyland.ia.br/?cupom=MOTTA10">
-          <div>
-            <div class="title">📖 Storyland | Histórias Infantis</div>
-            <div class="desc">Cupom: MOTTA10</div>
-          </div>
-          →
+        <a class="card card-wide" href="https://storyland.ia.br/?cupom=MOTTA10" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">📖</span><span class="arrow">→</span></span>
+          <span><span class="title">Storyland</span><span class="desc">Histórias infantis personalizadas. Cupom: MOTTA10.</span></span>
         </a>
 
       </div>
 
-      <div class="section-title">CONTEÚDO</div>
-      <div class="links">
+      <div class="section-title">Conteúdo</div>
+      <div class="bento">
 
-        <a class="link" href="https://www.youtube.com/@mottameister" target="_blank" rel="noopener noreferrer">
-          <div>
-            <div class="title">▶️ YouTube</div>
-            <div class="desc">Guias, campanhas, batalhas e atualizações</div>
-          </div>
-          →
+        <a class="card" href="https://www.youtube.com/@mottameister" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">▶️</span><span class="arrow">→</span></span>
+          <span><span class="title">YouTube</span><span class="desc">Guias, campanhas, batalhas e updates.</span></span>
         </a>
 
-        <a class="link" href="https://www.instagram.com/mottameister" target="_blank" rel="noopener noreferrer">
-          <div>
-            <div class="title">📸 Instagram</div>
-            <div class="desc">Vida real, corujões e bastidores</div>
-          </div>
-          →
+        <a class="card" href="https://www.instagram.com/mottameister" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">📸</span><span class="arrow">→</span></span>
+          <span><span class="title">Instagram</span><span class="desc">Vida real, corujões e bastidores.</span></span>
         </a>
 
-        <a class="link" href="https://www.tiktok.com/@_mottameister" target="_blank" rel="noopener noreferrer">
-          <div>
-            <div class="title">✂️ Cortes do Motta</div>
-            <div class="desc">Dicas rápidas, clips e gameplay direto ao ponto</div>
-          </div>
-          →
+        <a class="card" href="https://www.tiktok.com/@_mottameister" target="_blank" rel="noopener noreferrer">
+          <span class="card-top"><span class="icon">✂️</span><span class="arrow">→</span></span>
+          <span><span class="title">Cortes do Motta</span><span class="desc">Dicas rápidas, clips e gameplay.</span></span>
         </a>
 
-      </div>
-
-      <div class="section-title">PARCERIAS</div>
-      <div class="links">
-
-        <a class="link" href="mailto:ana.cecilia@mesatrajetoria.com">
-          <div>
-            <div class="title">🤝 Parcerias e Projetos</div>
-            <div class="desc">Fale com a Ana</div>
-          </div>
-          →
+        <a class="card" href="mailto:ana.cecilia@mesatrajetoria.com">
+          <span class="card-top"><span class="icon">🤝</span><span class="arrow">→</span></span>
+          <span><span class="title">Parcerias</span><span class="desc">Projetos, collabs e mídia.</span></span>
         </a>
 
       </div>
