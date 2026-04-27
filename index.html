@@ -28,21 +28,51 @@
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
       color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
 
       background:
-      radial-gradient(circle at 15% 10%, rgba(181,23,255,0.35), transparent 40%),
-      radial-gradient(circle at 85% 20%, rgba(67,217,255,0.25), transparent 45%),
-      radial-gradient(circle at 50% 80%, rgba(255,79,216,0.15), transparent 50%),
-      linear-gradient(180deg, #05030a 0%, #090711 60%, #0c0816 100%);
+        radial-gradient(circle at 15% 10%, rgba(181,23,255,0.35), transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(67,217,255,0.25), transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(255,79,216,0.15), transparent 50%),
+        linear-gradient(180deg, #05030a 0%, #090711 60%, #0c0816 100%);
 
-      min-height: 100vh;
+      background-size: 140% 140%;
+      animation: bgBreath 12s ease-in-out infinite alternate;
     }
+
+    @keyframes bgBreath {
+      from { background-position: 0% 0%; }
+      to { background-position: 100% 100%; }
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.22) 1px, transparent 1px),
+        radial-gradient(circle, rgba(181,23,255,0.18) 1px, transparent 1px),
+        radial-gradient(circle, rgba(67,217,255,0.16) 1px, transparent 1px);
+      background-size: 80px 80px, 130px 130px, 170px 170px;
+      background-position: 0 0, 30px 40px, 80px 20px;
+      opacity: 0.35;
+      animation: particlesMove 30s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes particlesMove {
+      from { transform: translateY(0); }
+      to { transform: translateY(-120px); }
+    }
+
     .wrap {
       max-width: 720px;
       margin: auto;
       padding: 30px 16px;
-
       position: relative;
+      z-index: 1;
     }
 
     .wrap::before {
@@ -95,10 +125,18 @@
 
     .panel {
       margin-top: 24px;
-      padding: 12px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
+      padding: 14px;
+      border-radius: 24px;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.09),
+        rgba(255,255,255,0.045)
+      );
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow:
+        0 24px 80px rgba(181,23,255,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      backdrop-filter: blur(18px);
     }
 
     .links {
@@ -126,22 +164,23 @@
     /* GLOW BUTTON */
     .link-main {
       position: relative;
-      background: linear-gradient(135deg, rgba(181,23,255,.35), rgba(67,217,255,.15));
-      border-color: rgba(181,23,255,.4);
+      isolation: isolate;
+      background: linear-gradient(135deg, rgba(181,23,255,.38), rgba(67,217,255,.18));
+      border-color: rgba(181,23,255,.48);
       box-shadow:
-        0 0 20px rgba(181,23,255,.4),
-        0 0 40px rgba(67,217,255,.2);
+        0 0 22px rgba(181,23,255,.38),
+        0 0 52px rgba(67,217,255,.18);
     }
 
     .link-main::before {
       content: "";
       position: absolute;
       inset: -2px;
-      border-radius: 16px;
+      border-radius: 18px;
       background: linear-gradient(135deg, var(--purple), var(--blue), var(--pink));
       z-index: -1;
-      opacity: 0.4;
-      filter: blur(12px);
+      opacity: 0.45;
+      filter: blur(14px);
     }
 
     .icon {
@@ -190,28 +229,79 @@
     </section>
 
     <section class="panel">
+      <div class="section-title">COMECE AQUI</div>
       <div class="links">
 
-        <a class="link link-main" href="https://discord.com/invite/TcSFAXGr6a">
+        <a class="link link-main" href="https://discord.com/invite/TcSFAXGr6a" target="_blank" rel="noopener noreferrer">
           <div>
-            <div class="title">💬 Discord</div>
-            <div class="desc">Comunidade e servidor</div>
+            <div class="title">💬 Entrar no Discord</div>
+            <div class="desc">Comunidade, avisos, suporte e acesso ao servidor</div>
           </div>
           →
         </a>
 
-        <a class="link" href="https://modrinth.com/modpack/cobblemon-motta">
+        <a class="link" href="https://modrinth.com/modpack/cobblemon-motta" target="_blank" rel="noopener noreferrer">
           <div>
-            <div class="title">🧩 Modpack</div>
-            <div class="desc">Cobblemon Motta 2025</div>
+            <div class="title">🧩 Baixar o Modpack</div>
+            <div class="desc">Cobblemon Motta 2025 no Modrinth</div>
           </div>
           →
         </a>
 
-        <a class="link" href="https://www.patreon.com/mottameister">
+        <a class="link" href="https://www.patreon.com/mottameister" target="_blank" rel="noopener noreferrer">
           <div>
             <div class="title">🦉 Patreon</div>
-            <div class="desc">Corujões e conteúdo exclusivo</div>
+            <div class="desc">Corujões, bastidores e conteúdo exclusivo</div>
+          </div>
+          →
+        </a>
+
+      </div>
+
+      <div class="section-title">TOCA DA CORUJA</div>
+      <div class="links">
+
+        <a class="link" href="https://www.patreon.com/posts/mundo-cobblemon-155150113">
+          <div>
+            <div class="title">🗺️ Download do Mundo</div>
+            <div class="desc">Explore o mapa oficial do servidor no seu single player</div>
+          </div>
+          →
+        </a>
+
+        <a class="link" href="https://www.patreon.com/posts/ace-trainer-toca-156636229">
+          <div>
+            <div class="title">🏆 Virar Ace Trainer</div>
+            <div class="desc">Entre como treinador de end-game na campanha</div>
+          </div>
+          →
+        </a>
+
+        <a class="link" href="https://modrinth.com/mod/owls-nest-rct-campaign">
+          <div>
+            <div class="title">🦉 Campanha Toca da Coruja</div>
+            <div class="desc">Trainers, campanha e progresso do servidor</div>
+          </div>
+          →
+        </a>
+
+      </div>
+
+      <div class="section-title">RECOMENDAÇÕES</div>
+      <div class="links">
+
+        <a class="link" href="https://www.amazon.com.br/shop/mottameister" target="_blank" rel="noopener noreferrer">
+          <div>
+            <div class="title">🎮 Produtos que eu uso e recomendo</div>
+            <div class="desc">Setup, jogos, casa, comidas e bebidas</div>
+          </div>
+          →
+        </a>
+
+        <a class="link" href="https://storyland.ia.br/?cupom=MOTTA10">
+          <div>
+            <div class="title">📖 Storyland | Histórias Infantis</div>
+            <div class="desc">Cupom: MOTTA10</div>
           </div>
           →
         </a>
@@ -219,29 +309,41 @@
       </div>
 
       <div class="section-title">CONTEÚDO</div>
-
       <div class="links">
 
-        <a class="link" href="https://www.youtube.com/@mottameister">
+        <a class="link" href="https://www.youtube.com/@mottameister" target="_blank" rel="noopener noreferrer">
           <div>
             <div class="title">▶️ YouTube</div>
-            <div class="desc">Guias e campanhas</div>
+            <div class="desc">Guias, campanhas, batalhas e atualizações</div>
           </div>
           →
         </a>
 
-        <a class="link" href="https://www.instagram.com/mottameister">
+        <a class="link" href="https://www.instagram.com/mottameister" target="_blank" rel="noopener noreferrer">
           <div>
             <div class="title">📸 Instagram</div>
-            <div class="desc">Vida real</div>
+            <div class="desc">Vida real, corujões e bastidores</div>
           </div>
           →
         </a>
 
-        <a class="link" href="https://www.tiktok.com/@_mottameister">
+        <a class="link" href="https://www.tiktok.com/@_mottameister" target="_blank" rel="noopener noreferrer">
           <div>
-            <div class="title">✂️ Cortes</div>
-            <div class="desc">Dicas rápidas</div>
+            <div class="title">✂️ Cortes do Motta</div>
+            <div class="desc">Dicas rápidas, clips e gameplay direto ao ponto</div>
+          </div>
+          →
+        </a>
+
+      </div>
+
+      <div class="section-title">PARCERIAS</div>
+      <div class="links">
+
+        <a class="link" href="mailto:ana.cecilia@mesatrajetoria.com">
+          <div>
+            <div class="title">🤝 Parcerias e Projetos</div>
+            <div class="desc">Fale com a Ana</div>
           </div>
           →
         </a>
