@@ -28,17 +28,31 @@
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at 20% 10%, rgba(181,23,255,.3), transparent),
-        linear-gradient(180deg, #07050d 0%, var(--bg) 100%);
-    }
 
+      background:
+      radial-gradient(circle at 15% 10%, rgba(181,23,255,0.35), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(67,217,255,0.25), transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(255,79,216,0.15), transparent 50%),
+      linear-gradient(180deg, #05030a 0%, #090711 60%, #0c0816 100%);
+
+      min-height: 100vh;
+    }
     .wrap {
       max-width: 720px;
       margin: auto;
       padding: 30px 16px;
+
+      position: relative;
     }
 
+    .wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(181,23,255,0.15), transparent 60%);
+      filter: blur(40px);
+      z-index: -1;
+    }
     .hero {
       text-align: center;
     }
