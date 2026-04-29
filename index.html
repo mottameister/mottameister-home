@@ -30,6 +30,8 @@
       --pink: #ff4fd8;
       --blue: #43d9ff;
       --gold: #ffbf38;
+      --green: #66f28b;
+      --red: #ff4f6f;
       --shadow: 0 24px 80px rgba(181, 23, 255, 0.22);
     }
 
@@ -167,6 +169,10 @@
     }
 
     .card {
+      --accent: var(--purple);
+      --accent-2: var(--blue);
+      --rx: 0deg;
+      --ry: 0deg;
       position: relative;
       min-height: 132px;
       padding: 18px;
@@ -181,6 +187,7 @@
       justify-content: space-between;
       transition: transform .22s ease, border-color .22s ease, background .22s ease, box-shadow .22s ease;
       isolation: isolate;
+      transform-style: preserve-3d;
     }
 
     .card::after {
@@ -194,17 +201,45 @@
       z-index: -1;
     }
 
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 28%, transparent), transparent 34%),
+        radial-gradient(circle at var(--mx, 80%) var(--my, 16%), color-mix(in srgb, var(--accent-2) 36%, transparent), transparent 34%);
+      opacity: .72;
+      transition: opacity .22s ease;
+      z-index: -1;
+    }
+
     .card:hover {
-      transform: translateY(-4px) scale(1.01);
+      transform: translateY(-4px) rotateX(var(--rx)) rotateY(var(--ry)) scale(1.01);
       border-color: rgba(255,255,255,.26);
       background: var(--card-strong);
-      box-shadow: 0 18px 50px rgba(0,0,0,.26), 0 0 28px rgba(181,23,255,.16);
+      box-shadow: 0 18px 50px rgba(0,0,0,.26), 0 0 28px color-mix(in srgb, var(--accent) 24%, transparent);
     }
 
     .card:hover::after {
       opacity: 1;
       transform: translateY(-8px);
     }
+
+    .card:hover::before { opacity: .95; }
+
+    .tone-discord { --accent: #5865f2; --accent-2: var(--blue); }
+    .tone-modpack { --accent: #66f28b; --accent-2: var(--gold); }
+    .tone-patreon { --accent: #ff4f6f; --accent-2: var(--pink); }
+    .tone-map { --accent: #ffbf38; --accent-2: #66f28b; }
+    .tone-ace { --accent: #ffbf38; --accent-2: var(--pink); }
+    .tone-campaign { --accent: #43d9ff; --accent-2: var(--purple); }
+    .tone-wiki { --accent: #66f28b; --accent-2: #43d9ff; }
+    .tone-shop { --accent: #ff8a3d; --accent-2: #43d9ff; }
+    .tone-story { --accent: #ff4fd8; --accent-2: #ffbf38; }
+    .tone-youtube { --accent: #ff3131; --accent-2: #ffbf38; }
+    .tone-instagram { --accent: #ff4fd8; --accent-2: #ff8a3d; }
+    .tone-tiktok { --accent: #43d9ff; --accent-2: #ff4f6f; }
+    .tone-partner { --accent: #f7f2ff; --accent-2: #66f28b; }
 
     .card-main {
       grid-column: span 2;
@@ -235,6 +270,12 @@
       gap: 12px;
     }
 
+    .card-copy {
+      display: block;
+      position: relative;
+      z-index: 2;
+    }
+
     .icon {
       width: 44px;
       height: 44px;
@@ -255,6 +296,260 @@
     .card:hover .arrow {
       transform: translateX(3px);
       opacity: 1;
+    }
+
+    .card-visual {
+      position: relative;
+      height: 52px;
+      margin: 12px 0 4px;
+      border-radius: 16px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.03)),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.09) 0 1px, transparent 1px 12px);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .card-main .card-visual { height: 62px; }
+
+    .pulse-line,
+    .orbital,
+    .blocks,
+    .route,
+    .rank,
+    .quest,
+    .pages,
+    .gear,
+    .book,
+    .video,
+    .photo,
+    .clips,
+    .handshake {
+      position: absolute;
+      inset: 0;
+    }
+
+    .pulse-line::before,
+    .video::before,
+    .clips::before {
+      content: "";
+      position: absolute;
+      left: -20%;
+      top: 50%;
+      width: 140%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+      box-shadow: 0 0 18px var(--accent);
+      animation: scan 2.8s ease-in-out infinite;
+    }
+
+    .pulse-line::after {
+      content: "online";
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      color: #061006;
+      background: var(--green);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .orbital::before,
+    .orbital::after {
+      content: "";
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid color-mix(in srgb, var(--accent) 78%, white);
+      left: 22px;
+      top: 9px;
+      box-shadow: 42px 0 0 -7px var(--accent-2), 84px 0 0 -12px var(--accent);
+      animation: bob 3.4s ease-in-out infinite;
+    }
+
+    .orbital::after {
+      left: auto;
+      right: 18px;
+      transform: scale(.72);
+      animation-delay: -.8s;
+    }
+
+    .blocks::before,
+    .blocks::after,
+    .gear::before,
+    .gear::after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      left: 20px;
+      top: 12px;
+      border-radius: 7px;
+      background: var(--accent);
+      box-shadow: 36px 8px 0 var(--accent-2), 76px -2px 0 rgba(255,255,255,.24);
+      transform: rotate(8deg);
+    }
+
+    .blocks::after,
+    .gear::after {
+      left: auto;
+      right: 18px;
+      width: 46px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      opacity: .7;
+    }
+
+    .route::before,
+    .quest::before {
+      content: "";
+      position: absolute;
+      inset: 15px 20px;
+      border-top: 3px dashed color-mix(in srgb, var(--accent) 86%, white);
+      border-radius: 50%;
+      transform: rotate(-8deg);
+    }
+
+    .route::after,
+    .quest::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      left: 22px;
+      top: 15px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 50px 16px 0 var(--accent), 105px 4px 0 rgba(255,255,255,.56);
+    }
+
+    .rank::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 12px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+    }
+
+    .rank::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      bottom: 12px;
+      width: 72%;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 18px var(--accent);
+    }
+
+    .pages::before,
+    .book::before {
+      content: "";
+      position: absolute;
+      width: 34px;
+      height: 38px;
+      left: 24px;
+      top: 8px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.24);
+      box-shadow: 26px 0 0 rgba(255,255,255,.15), 52px 0 0 color-mix(in srgb, var(--accent) 70%, transparent);
+    }
+
+    .pages::after,
+    .book::after {
+      content: "";
+      position: absolute;
+      right: 20px;
+      top: 16px;
+      width: 62px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 12px 0 rgba(255,255,255,.2), 0 24px 0 var(--accent);
+    }
+
+    .photo::before {
+      content: "";
+      position: absolute;
+      inset: 10px 18px;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 75% 28%, rgba(255,255,255,.86) 0 7px, transparent 8px),
+        linear-gradient(135deg, var(--accent), var(--accent-2));
+      transform: rotate(-2deg);
+    }
+
+    .photo::after {
+      content: "";
+      position: absolute;
+      left: 28px;
+      bottom: 14px;
+      width: 78px;
+      height: 18px;
+      background: rgba(9,7,17,.42);
+      clip-path: polygon(0 100%, 32% 20%, 52% 66%, 76% 0, 100% 100%);
+    }
+
+    .handshake::before {
+      content: "";
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      top: 23px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 18px var(--accent-2);
+    }
+
+    .handshake::after {
+      content: "collab";
+      position: absolute;
+      right: 18px;
+      top: 12px;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 900;
+      opacity: .82;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      color: color-mix(in srgb, var(--text) 84%, var(--accent-2));
+      border: 1px solid rgba(255,255,255,.1);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    @keyframes scan {
+      0%, 100% { transform: translateX(-14%) translateY(-50%); opacity: .55; }
+      50% { transform: translateX(14%) translateY(-50%); opacity: 1; }
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     .title {
@@ -297,11 +592,14 @@
       .title { font-size: 17px; }
       .card-main .title { font-size: 20px; }
       .desc { font-size: 13px; }
+      .card-visual { height: 46px; margin-top: 10px; }
+      .card-main .card-visual { height: 52px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       body, body::before { animation: none; }
       .card, .card::after, .arrow { transition: none; }
+      .pulse-line::before, .orbital::before, .orbital::after, .video::before, .clips::before { animation: none; }
     }
   </style>
 </head>
@@ -326,19 +624,22 @@
       <div class="section-title">Comece aqui</div>
       <div class="bento">
 
-        <a class="card card-main" href="https://discord.com/invite/TcSFAXGr6a" target="_blank" rel="noopener noreferrer">
+        <a class="card card-main tone-discord" href="https://discord.com/invite/TcSFAXGr6a" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">💬</span><span class="arrow">→</span></span>
-          <span><span class="title">Entrar no Discord</span><span class="desc">Comunidade, avisos, suporte, eventos e acesso ao servidor.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="pulse-line"></span></span>
+          <span class="card-copy"><span class="title">Entrar no Discord</span><span class="desc">Comunidade, avisos, suporte, eventos e acesso ao servidor.</span><span class="meta-row"><span class="badge">hub ao vivo</span><span class="badge">eventos</span></span></span>
         </a>
 
-        <a class="card" href="https://modrinth.com/modpack/toca-da-coruja" target="_blank" rel="noopener noreferrer">
+        <a class="card tone-modpack" href="https://modrinth.com/modpack/toca-da-coruja" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">🧩</span><span class="arrow">→</span></span>
-          <span><span class="title">Baixar o Modpack</span><span class="desc">Cobblemon Motta no Modrinth.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="blocks"></span></span>
+          <span class="card-copy"><span class="title">Baixar o Modpack</span><span class="desc">Cobblemon Motta no Modrinth.</span><span class="meta-row"><span class="badge">instalar</span></span></span>
         </a>
 
-        <a class="card" href="https://www.patreon.com/mottameister" target="_blank" rel="noopener noreferrer">
+        <a class="card tone-patreon" href="https://www.patreon.com/mottameister" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">🦉</span><span class="arrow">→</span></span>
-          <span><span class="title">Patreon</span><span class="desc">Corujões, bastidores e conteúdo exclusivo.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="orbital"></span></span>
+          <span class="card-copy"><span class="title">Patreon</span><span class="desc">Corujões, bastidores e conteúdo exclusivo.</span><span class="meta-row"><span class="badge">apoie</span></span></span>
         </a>
 
         
@@ -348,24 +649,28 @@
       <div class="section-title">Toca da Coruja</div>
       <div class="bento">
 
-        <a class="card card-wide" href="https://www.patreon.com/posts/mundo-cobblemon-155150113" target="_blank" rel="noopener noreferrer">
+        <a class="card card-wide tone-map" href="https://www.patreon.com/posts/mundo-cobblemon-155150113" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">🗺️</span><span class="arrow">→</span></span>
-          <span><span class="title">Download do Mundo</span><span class="desc">Explore o mapa oficial do servidor no seu single player.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="route"></span></span>
+          <span class="card-copy"><span class="title">Download do Mundo</span><span class="desc">Explore o mapa oficial do servidor no seu single player.</span><span class="meta-row"><span class="badge">mapa</span><span class="badge">single player</span></span></span>
         </a>
 
-        <a class="card card-wide" href="https://www.patreon.com/posts/ace-trainer-toca-156636229" target="_blank" rel="noopener noreferrer">
+        <a class="card card-wide tone-ace" href="https://www.patreon.com/posts/ace-trainer-toca-156636229" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">🏆</span><span class="arrow">→</span></span>
-          <span><span class="title">Virar Ace Trainer</span><span class="desc">Entre como treinador de end-game na campanha.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="rank"></span></span>
+          <span class="card-copy"><span class="title">Virar Ace Trainer</span><span class="desc">Entre como treinador de end-game na campanha.</span><span class="meta-row"><span class="badge">end-game</span><span class="badge">campanha</span></span></span>
         </a>
 
-        <a class="card card-wide" href="https://modrinth.com/mod/owls-nest-rct-campaign" target="_blank" rel="noopener noreferrer">
+        <a class="card card-wide tone-campaign" href="https://modrinth.com/mod/owls-nest-rct-campaign" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">⚔️</span><span class="arrow">→</span></span>
-          <span><span class="title">Campanha</span><span class="desc">Trainers, progressão e desafios da Toca.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="quest"></span></span>
+          <span class="card-copy"><span class="title">Campanha</span><span class="desc">Trainers, progressão e desafios da Toca.</span><span class="meta-row"><span class="badge">rct</span><span class="badge">desafios</span></span></span>
         </a>
 
-        <a class="card card-wide" href="https://wiki.mottameister.xyz" target="_blank" rel="noopener noreferrer">
+        <a class="card card-wide tone-wiki" href="https://wiki.mottameister.xyz" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">📒</span><span class="arrow">→</span></span>
-          <span><span class="title">Wiki da Campanha</span><span class="desc">Guias, mecânicas, comandos e tudo pra evoluir no mundo.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="pages"></span></span>
+          <span class="card-copy"><span class="title">Wiki da Campanha</span><span class="desc">Guias, mecânicas, comandos e tudo pra evoluir no mundo.</span><span class="meta-row"><span class="badge">guias</span><span class="badge">comandos</span></span></span>
         </a>
 
       </div>
@@ -373,14 +678,16 @@
       <div class="section-title">Recomendações</div>
       <div class="bento">
 
-        <a class="card card-wide" href="https://www.amazon.com.br/shop/mottameister" target="_blank" rel="noopener noreferrer">
+        <a class="card card-wide tone-shop" href="https://www.amazon.com.br/shop/mottameister" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">🎮</span><span class="arrow">→</span></span>
-          <span><span class="title">Produtos que eu uso</span><span class="desc">Setup, jogos, casa, comidas, bebidas e recomendações reais.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="gear"></span></span>
+          <span class="card-copy"><span class="title">Produtos que eu uso</span><span class="desc">Setup, jogos, casa, comidas, bebidas e recomendações reais.</span><span class="meta-row"><span class="badge">setup</span><span class="badge">curadoria</span></span></span>
         </a>
 
-        <a class="card card-wide" href="https://storyland.ia.br/?cupom=MOTTA10" target="_blank" rel="noopener noreferrer">
+        <a class="card card-wide tone-story" href="https://storyland.ia.br/?cupom=MOTTA10" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">📖</span><span class="arrow">→</span></span>
-          <span><span class="title">Storyland</span><span class="desc">Histórias infantis personalizadas. Cupom: MOTTA10.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="book"></span></span>
+          <span class="card-copy"><span class="title">Storyland</span><span class="desc">Histórias infantis personalizadas. Cupom: MOTTA10.</span><span class="meta-row"><span class="badge">MOTTA10</span><span class="badge">presente</span></span></span>
         </a>
 
       </div>
@@ -388,24 +695,28 @@
       <div class="section-title">Conteúdo</div>
       <div class="bento">
 
-        <a class="card" href="https://www.youtube.com/@mottameister" target="_blank" rel="noopener noreferrer">
+        <a class="card tone-youtube" href="https://www.youtube.com/@mottameister" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">▶️</span><span class="arrow">→</span></span>
-          <span><span class="title">YouTube</span><span class="desc">Guias, campanhas, batalhas e updates.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="video"></span></span>
+          <span class="card-copy"><span class="title">YouTube</span><span class="desc">Guias, campanhas, batalhas e updates.</span><span class="meta-row"><span class="badge">vídeos</span></span></span>
         </a>
 
-        <a class="card" href="https://www.instagram.com/mottameister" target="_blank" rel="noopener noreferrer">
+        <a class="card tone-instagram" href="https://www.instagram.com/mottameister" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">📸</span><span class="arrow">→</span></span>
-          <span><span class="title">Instagram</span><span class="desc">Vida real, corujões e bastidores.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="photo"></span></span>
+          <span class="card-copy"><span class="title">Instagram</span><span class="desc">Vida real, corujões e bastidores.</span><span class="meta-row"><span class="badge">bastidores</span></span></span>
         </a>
 
-        <a class="card" href="https://www.tiktok.com/@_mottameister" target="_blank" rel="noopener noreferrer">
+        <a class="card tone-tiktok" href="https://www.tiktok.com/@_mottameister" target="_blank" rel="noopener noreferrer">
           <span class="card-top"><span class="icon">✂️</span><span class="arrow">→</span></span>
-          <span><span class="title">Cortes do Motta</span><span class="desc">Dicas rápidas, clips e gameplay.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="clips"></span></span>
+          <span class="card-copy"><span class="title">Cortes do Motta</span><span class="desc">Dicas rápidas, clips e gameplay.</span><span class="meta-row"><span class="badge">clips</span></span></span>
         </a>
 
-        <a class="card" href="mailto:ana.cecilia@mesatrajetoria.com">
+        <a class="card tone-partner" href="mailto:ana.cecilia@mesatrajetoria.com">
           <span class="card-top"><span class="icon">🤝</span><span class="arrow">→</span></span>
-          <span><span class="title">Parcerias</span><span class="desc">Projetos, collabs e mídia.</span></span>
+          <span class="card-visual" aria-hidden="true"><span class="handshake"></span></span>
+          <span class="card-copy"><span class="title">Parcerias</span><span class="desc">Projetos, collabs e mídia.</span><span class="meta-row"><span class="badge">contato</span></span></span>
         </a>
 
       </div>
@@ -417,5 +728,28 @@
     </footer>
 
   </main>
+  <script>
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((card) => {
+      card.addEventListener("pointermove", (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const px = x / rect.width;
+        const py = y / rect.height;
+
+        card.style.setProperty("--mx", `${px * 100}%`);
+        card.style.setProperty("--my", `${py * 100}%`);
+        card.style.setProperty("--rx", `${(0.5 - py) * 5}deg`);
+        card.style.setProperty("--ry", `${(px - 0.5) * 7}deg`);
+      });
+
+      card.addEventListener("pointerleave", () => {
+        card.style.setProperty("--rx", "0deg");
+        card.style.setProperty("--ry", "0deg");
+      });
+    });
+  </script>
 </body>
 </html>
